@@ -1,3 +1,9 @@
+supabase:
+  uri: ${SUPABASE_URL:https://your-supabase-project.supabase.co}
+  anon-key: ${SUPABASE_ANON_KEY:your_anon_key}
+  jwt:
+    issuer-uri: ${SUPABASE_URL/}auth/v1
+
 spring:
   application:
     name: secretaria-digital-backend
@@ -6,3 +12,8 @@ spring:
         username: ${DB_USER:your_username}
         password: ${DB_PASSWORD:your_password}
         driver-class-name: org.postgresql.Driver
+    security:
+      oauth2:
+        resourceserver:
+          jwt:
+            issuer-uri: ${supabase.jwt.issuer-uri}
