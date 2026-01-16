@@ -27,7 +27,11 @@ spring:
           time_zone: UTC
         format_sql: true
     show-sql: false  # true em dev para debug
-
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
   # Configuração do servidor web
   security:
     oauth2:
