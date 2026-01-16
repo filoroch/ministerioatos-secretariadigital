@@ -3,11 +3,14 @@ package br.org.ministerioatos.backend.security;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public class SupabaseAuditorAware implements AuditorAware<UUID> {
+
     @Override
     public Optional<UUID> getCurrentAuditor() {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
