@@ -1,19 +1,41 @@
+# Variaveis de ambiente podem ser usadas para configurar os valores sensíveis
 supabase:
-  uri: ${SUPABASE_URL:https://your-supabase-project.supabase.co}
+  url: ${SUPABASE_URL:https://your-supabase-project.supabase.co}
   anon-key: ${SUPABASE_ANON_KEY:your_anon_key}
   jwt:
-    issuer-uri: ${SUPABASE_URL/}auth/v1
+    issuer-uri: ${supabase.url}/auth/v1
 
 spring:
   application:
     name: secretaria-digital-backend
-    datasource:
-        url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-        username: ${DB_USER:your_username}
-        password: ${DB_PASSWORD:your_password}
-        driver-class-name: org.postgresql.Driver
-    security:
-      oauth2:
-        resourceserver:
-          jwt:
-            issuer-uri: ${supabase.jwt.issuer-uri}
+
+  # Configuração do banco de dados
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER:your_username}
+    password: ${DB_PASSWORD:your_password}
+    driver-class-name: org.postgresql.Driver
+
+  # Configuração do JPA / Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: none  # ou create, update (cuidado em prod!)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: UTC
+        format_sql: true
+    show-sql: false  # true em dev para debug
+
+  # Configuração do servidor web
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${supabase.jwt.issuer-uri}
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
