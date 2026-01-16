@@ -1,0 +1,175 @@
+erDiagram
+    %% TABELA PRINCIPAL - Dados Básicos Imutáveis
+    PESSOA {
+        string id PK
+        string nome
+        string cpf UK
+        string genero
+        date data_nascimento
+        string profissao
+        string estado_civil
+        datetime created_at
+    }
+
+    %% Subtabela 1: Dados Eclesiásticos (Específicos por Papel)
+    %% Uma pessoa pode ter MÚLTIPLOS registros aqui (histórico de papéis)
+    DADOS_ECLESIASTICOS {
+        string id PK
+        string pessoa_id FK
+        string tipo "ENUM: Membro, Congregado, Criança, Visitante"
+        date data_inicio_vinculo
+        date data_fim_vinculo "Nullable (Ativo se NULL)"
+        
+        %% Campos específicos de MEMBRO
+        date data_batismo
+        boolean batizado_espirito_santo
+        string atuacao "Instrumentista, Midia, etc"
+        
+        %% Campos específicos de CONGREGADO
+        date data_conversao
+        string situacao "Novo Convertido, Aguardando Batismo"
+        
+        %% Campos específicos de VISITANTE
+        date data_primeira_visita
+        
+        %% Campos comuns
+        string observacoes
+    }
+
+    %% Subtabela 2: Endereço (Normalizado)
+    ENDERECO {
+        string id PK
+        string pessoa_id FK
+        string logradouro
+        string numero
+        string bairro
+        string cidade
+        string estado
+        string cep
+        string complemento
+        string ponto_referencia
+        boolean endereco_atual
+    }
+
+    %% Subtabela 3: Contatos (Um-para-Muitos)
+    %% Permite múltiplos telefones/emails por pessoa
+    CONTATO {
+        string id PK
+        string pessoa_id FK
+        string tipo "ENUM: Telefone, Email, WhatsApp"
+        string valor
+        boolean principal
+    }
+
+    %% Subtabela 4: Redes Sociais (Um-para-Muitos)
+    REDE_SOCIAL {
+        string id PK
+        string pessoa_id FK
+        string plataforma "ENUM: Facebook, Instagram, TikTok"
+        string url_perfil
+    }
+
+
+    RELACIONAMENTO {
+        string id PK
+        string pessoa_origem_id FK
+        string pessoa_destino_id FK
+        string tipo_relacionamento "Pai, Mãe, Filho, Cônjuge, Noivo(a), Padrasto, etc"
+    }
+
+
+    DEPARTAMENTO {
+        string id PK
+        string nome
+        string descricao
+    }
+
+
+    NUCLEO {
+        string id PK
+        string nome
+        string endereco
+    }
+
+
+    DOCUMENTO {
+        string id PK
+        string pessoa_id FK
+        string tipo "Batismo, Apresentacao, Carteirinha, Outros"
+        string url_arquivo
+        string versao
+        date data_emissao
+    }
+
+
+    CURSO {
+        string id PK
+        string nome
+        string descricao
+    }
+
+
+    AULA {
+        string id PK
+        string curso_id FK
+        date data
+        string pauta "Conteúdo ministrado"
+    }
+
+
+    PRESENCA {
+        string aula_id FK
+        string pessoa_id FK
+        boolean presente
+    }
+
+
+    AVALIACAO {
+        string id PK
+        string curso_id FK
+        string titulo "Prova 1, Trabalho Final"
+        date data_aplicacao
+        float nota_maxima
+    }
+
+
+    NOTA {
+        string avaliacao_id FK
+        string pessoa_id FK
+        float valor
+        string comentarios
+    }
+
+
+    %% Relacionamentos (Vínculos Diretos)
+    PESSOA ||--o{ RELACIONAMENTO : "origem"
+    PESSOA ||--o{ RELACIONAMENTO : "destino"
+
+
+    %% Gestão de Cursos
+    CURSO ||--o{ AULA : "possui"
+    AULA ||--o{ PRESENCA : "registra"
+    PESSOA ||--o{ PRESENCA : "participa"
+    
+    CURSO ||--o{ AVALIACAO : "define"
+    AVALIACAO ||--o{ NOTA : "gera"
+    PESSOA ||--o{ NOTA : "recebe"
+    PESSOA }|--o{ CURSO : "matriculado"
+    PESSOA ||--o{ CURSO : "ministra"
+
+
+    %% Outros Relacionamentos
+    PESSOA ||--o{ DOCUMENTO : "possui"
+    
+    PESSOA }|--o{ DEPARTAMENTO : "participa"
+    PESSOA ||--o{ DEPARTAMENTO : "lidera"
+    
+    PESSOA ||--o{ NUCLEO : "lidera"
+    PESSOA }|--o{ NUCLEO : "frequenta"
+
+
+    %% NOVOS RELACIONAMENTOS - Subtabelas
+    PESSOA ||--o{ DADOS_ECLESIASTICOS : "tem historico de"
+    PESSOA ||--o{ ENDERECO : "reside em"
+    PESSOA ||--o{ CONTATO : "possui"
+    PESSOA ||--o{ REDE_SOCIAL : "tem"
