@@ -16,11 +16,14 @@ public class SupabaseGrantedAuthoritiesConverter implements Converter<Jwt, Colle
     {
         Map<String, Object> userMetadata = jwt.getClaim("user_metadata");
 
+
         if (userMetadata == null || !userMetadata.containsKey("role")) {
             return Collections.emptyList();
         }
 
         String role = (String) userMetadata.get("role");
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
+        String authority = "ROLE_" + role;
+
+        return Collections.singletonList(new SimpleGrantedAuthority(authority));
     }
 }

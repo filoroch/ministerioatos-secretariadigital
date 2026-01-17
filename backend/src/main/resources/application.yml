@@ -1,3 +1,22 @@
+management:
+  endpoints:
+    web:
+      cors:
+        allowed-origins: "http://localhost:4201"
+        allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+        allowed-headers: "*"
+        allow-credentials: true
+
+  endpoint:
+    health:
+      show-details: when_authorized
+    metrics:
+      show-details: when_authorized
+      enabled: true
+    info:
+      enabled: true
+      show-details: when_authorized 
+
 # Variaveis de ambiente podem ser usadas para configurar os valores sensíveis
 supabase:
   url: ${SUPABASE_URL:https://your-supabase-project.supabase.co}
