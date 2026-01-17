@@ -2,7 +2,11 @@
 
 echo "🔍 Executando Gitleaks para detectar secrets..."
 
-# Roda gitleaks em arquivos staged
+# Roda gitleaks em arquivos staged 
+# --staged: apenas arquivos staged
+# --verbose: mostra detalhes do log
+# --redact: redige os arquivos com os secrets detectados
+
 gitleaks protect --staged --verbose --redact
 
 if [ $? -eq 1 ]; then
