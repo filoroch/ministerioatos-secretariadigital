@@ -1,0 +1,24 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-base-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR is from dev
+        run: |
+          if [[ "${{ github.head_ref }}" != "dev" ]]; then
+            echo "❌ PRs para 'main' devem vir APENAS de 'dev'"
+            echo "Sua branch: ${{ github.head_ref }}"
+            echo ""
+            echo "Fluxo correto:"
+            echo "1. Abra PR: sua-branch → dev"
+            echo "2. Faça merge em dev"
+            echo "3. Depois: PR dev → main"
+            exit 1
+          fi
+          echo "✅ PR válido: dev → main"
