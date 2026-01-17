@@ -1,0 +1,18 @@
+#!/bin/sh
+
+echo "🔍 Executando Gitleaks para detectar secrets..."
+
+# Roda gitleaks em arquivos staged
+gitleaks protect --staged --verbose --redact
+
+if [ $? -eq 1 ]; then
+    echo ""
+    echo "❌ COMMIT BLOQUEADO: Secrets detectados!"
+    echo ""
+    echo "💡 Remova as credenciais sensíveis antes de commitar."
+    echo "   Ou adicione false positives ao .gitleaks.toml"
+    exit 1
+fi
+
+echo "✅ Nenhum secret detectado. Commit permitido."
+exit 0
