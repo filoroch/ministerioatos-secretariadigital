@@ -1,6 +1,9 @@
-# Ministério Atos - Secretaria Digital
+<div align="center">
 
-> Sistema web de gestão eclesiástica para controle de pessoas, eventos, departamentos e núcleos da Igreja AD Ministério Atos.
+<h1>Ministério Atos - Secretaria Digital</h1>
+<p>Sistema web de gestão eclesiástica para controle de pessoas, eventos, departamentos e núcleos da Igreja AD Ministério Atos.
+
+</div>
 
 ## 🎯 Visão Geral
 
@@ -12,16 +15,6 @@ Aplicação fullstack desenvolvida para digitalizar e otimizar os processos da s
 - **Cursos e Treinamentos**: Escola bíblica, treinamento de líderes, controle de presença e notas
 - **Departamentos e Núcleos**: Organização de equipes e grupos pequenos
 - **Eventos**: Gestão de cultos, reuniões e atividades especiais
-
-## 📊 Status do Projeto
-
-**Fase Atual**: Planejamento e Definição de Arquitetura
-
-- ✅ Regras de negócio documentadas
-- ✅ Schema do banco de dados definido
-- 🔄 Docker/Infraestrutura em preparação
-- ⏳ Autenticação e autorização pendente
-- ⏳ Implementação do backend pendente
 
 ## 🛠️ Stack Técnica
 
@@ -45,101 +38,6 @@ Aplicação fullstack desenvolvida para digitalizar e otimizar os processos da s
 - **Docker Compose**: Ambiente de desenvolvimento
 - **GitHub Actions**: CI/CD
 
-## 📚 Documentação Técnica
-
-### Modelo de Dados
-
-O sistema utiliza um modelo relacional normalizado com as seguintes entidades principais:
-
-#### Pessoa
-Entidade central com dados biográficos imutáveis (nome, CPF, gênero, data de nascimento).
-
-#### Dados Eclesiásticos
-Histórico de vínculos com a igreja por tipo:
-- **Criança**: Até 12 anos, certificado de apresentação
-- **Visitante**: Freqüenta esporadicamente, sem vínculos formais
-- **Congregado**: Convertido, pode estar aguardando batismo ou membresia
-- **Membro**: Batizado e aprovado oficialmente pela liderança
-
-#### Outras Entidades
-- **Endereço**: Normalizado e compartilhado (famílias, eventos, núcleos)
-- **Relacionamento**: Estrutura familiar e parentesco
-- **Departamento**: Equipes ministeriais (mídia, música, etc.)
-- **Núcleo**: Grupos pequenos/células
-- **Curso/Aula/Avaliação**: Sistema de treinamentos
-- **Documento**: Metadados de certificados com storage no Supabase
-
-### Regras de Negócio
-
-#### Transições de Estado
-- **Criança → Visitante/Congregado**: Aos 13 anos (manual ou sugestão automática)
-- **Visitante → Congregado**: Ao registrar conversão
-- **Congregado → Membro**: Após batismo + apresentação oficial + aprovação pastoral
-
-#### Controle de Membresia
-**Batismo ≠ Membresia Automática**
-
-Mesmo batizado, a pessoa precisa:
-1. Ser apresentada oficialmente à congregação
-2. Ser declarada apta pela liderança
-3. Ter aprovação manual registrada no sistema
-
-Campos de controle: `situacao`, `apto_membresia`, `data_apresentacao_oficial`, `data_aprovacao_membresia`
-
-#### Relacionamentos
-Pessoas não registradas mencionadas em relacionamentos são automaticamente criadas como **Visitante** para manter integridade referencial.
-
-#### Endereços
-O sistema reutiliza endereços baseado em CEP + número + complemento, permitindo que famílias compartilhem o mesmo registro.
-
-### Sistema de Roles
-
-| Role | Descrição | Permissões |
-|------|-------------|-------------|
-| `ADMIN` | Administrador total | CRUD completo em todas as entidades |
-| `SECRETARIA` | Secretário(a) | CRUD de pessoas, documentos, cursos |
-| `LIDERANCA` | Pastor/Líder | Leitura de dados, aprovação de membresia |
-| `MEMBRO` | Membro comum | Leitura de dados próprios apenas |
-
-Roles armazenadas em `auth.users.raw_user_meta_data` no Supabase.
-
-## 🚀 Roadmap
-
-### Fase 1: Infraestrutura (🔄 Em Andamento)
-- [ ] Dockerfile e docker-compose para desenvolvimento local ([ATOS-24](https://github.com/filoroch/ministerioatos-secretariadigital/issues/3))
-- [ ] Autenticação com Supabase Auth + Spring Security ([ATOS-25](https://github.com/filoroch/ministerioatos-secretariadigital/issues/4))
-- [ ] Configuração de RLS (Row Level Security) no Supabase
-
-### Fase 2: Módulo de Pessoas
-- [ ] Implementação do domain model com TDD ([ATOS-26](https://github.com/filoroch/ministerioatos-secretariadigital/issues/5))
-- [ ] API REST para CRUD de pessoas
-- [ ] Validações de regras de negócio
-- [ ] Processamento de endereços e relacionamentos
-- [ ] Telas de cadastro no frontend
-
-### Fase 3: Gestão de Membresia
-- [ ] Fluxo de aprovação de membros
-- [ ] Dashboard de candidatos à membresia
-- [ ] Controle de batismos
-- [ ] Histórico de transições de estado
-
-### Fase 4: Documentos
-- [ ] Integração com Supabase Storage
-- [ ] Templates de certificados
-- [ ] Emissão de PDF
-- [ ] Versionamento de documentos
-
-### Fase 5: Cursos e Eventos
-- [ ] Módulo de cursos e escola bíblica
-- [ ] Controle de presença e notas
-- [ ] Gestão de eventos
-- [ ] Calendário de atividades
-
-### Fase 6: Relatórios e Analytics
-- [ ] Dashboard administrativo
-- [ ] Relatórios estatísticos
-- [ ] Exportação de dados
-- [ ] Gráficos de crescimento
 
 ## 💻 Desenvolvimento Local
 
@@ -179,18 +77,41 @@ ministerioatos-secretariadigital/
 │   ├── src/
 │   ├── package.json
 │   └── Dockerfile
-├── docker-compose.yml
-├── .env.example
-└── README.md
+````
+Futuramente o projeto pode ser divido em 2 repositórios, um para o backend e outro para o frontend ou em submodulos do git.
+
+## 🔀 Workflow de Contribuição
+
+Este projeto segue **Git Flow simplificado** com proteções automatizadas:
+
+### Estrutura de Branches
+
+- `main` - Produção (protegida, apenas merges de `dev`)
+- `dev` - Desenvolvimento e integração
+- `feature/*` - Novas funcionalidades
+- `fix/*` - Correções de bugs
+
+### Fluxo de Trabalho
+
+```bash
+# 1. Sincronize com dev
+git checkout dev
+git pull origin dev
+
+# 2. Crie sua branch
+git checkout -b feature/nome-da-feature
+# ou
+git checkout -b fix/nome-do-bug
+
+# 3. Desenvolva e commite
+git add .
+git commit -m "feat: descrição da feature"
+
+# 4. Envie para o repositório
+git push origin feature/nome-da-feature
+
+# 5. Abra Pull Request para dev (nunca para main)
 ```
-
-## 🔗 Links Úteis
-
-- **GitHub Issues**: [github.com/filoroch/ministerioatos-secretariadigital/issues](https://github.com/filoroch/ministerioatos-secretariadigital/issues)
-- **Linear Project**: [Ministério Atos: Secretaria Digital](https://linear.app/waverider/project/ministerio-atos-secretaria-digital-867a759e111b)
-- **Documentação do Supabase**: [supabase.com/docs](https://supabase.com/docs)
-- **Spring Boot Docs**: [spring.io/projects/spring-boot](https://spring.io/projects/spring-boot)
-- **Angular Docs**: [angular.io/docs](https://angular.io/docs)
 
 ## 👥 Equipe
 
@@ -199,8 +120,8 @@ ministerioatos-secretariadigital/
 
 ## 📝 Licença
 
-Este projeto é propriedade da Igreja AD Ministério Atos e está em desenvolvimento para uso interno.
-
+Este projeto é propriedade da Igreja AD Ministério Atos e está em desenvolvimento publico para uso interno. O projeto pode ficar privado a qualquer momento
+ 
 ---
 
 **Última atualização**: Janeiro 2026
