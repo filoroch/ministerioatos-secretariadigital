@@ -2,23 +2,36 @@ name: PR Validation
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   validate-base-branch:
+    name: validate-base-branch
     runs-on: ubuntu-latest
     steps:
-      - name: Check if PR is from dev
+      - name: Validar origem do PR
         run: |
-          if [[ "${{ github.head_ref }}" != "dev" ]]; then
-            echo "❌ PRs para 'main' devem vir APENAS de 'dev'"
-            echo "Sua branch: ${{ github.head_ref }}"
+          HEAD_REF="${{ github.event.pull_request.head.ref }}"
+          BASE_REF="${{ github.event.pull_request.base.ref }}"
+          
+          echo "🔍 Validando PR:"
+          echo "   De: $HEAD_REF"
+          echo "   Para: $BASE_REF"
+          
+          if [ "$BASE_REF" = "main" ] && [ "$HEAD_REF" != "dev" ]; then
             echo ""
-            echo "Fluxo correto:"
-            echo "1. Abra PR: sua-branch → dev"
-            echo "2. Faça merge em dev"
-            echo "3. Depois: PR dev → main"
+            echo "❌ ERRO: Pull requests para 'main' devem vir da branch 'dev'"
+            echo ""
+            echo "📋 Git Flow do projeto:"
+            echo "   feature/fix → dev (via PR)"
+            echo "   dev → main (via PR)"
+            echo ""
+            echo "💡 Solução:"
+            echo "   1. Feche este PR"
+            echo "   2. Abra PR: $HEAD_REF → dev"
+            echo "   3. Após merge em dev, abra PR: dev → main"
             exit 1
           fi
-          echo "✅ PR válido: dev → main"
+          
+          echo "✅ Validação passou!"
+
