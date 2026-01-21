@@ -1,6 +1,8 @@
 package br.org.ministerioatos.backend.domain;
 
 import br.org.ministerioatos.backend.domain.valueobjects.Genero;
+import br.org.ministerioatos.backend.domain.valueobjects.SituacaoEclesiastica;
+import br.org.ministerioatos.backend.domain.valueobjects.TipoRelacao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.*;
 import java.time.LocalDate;

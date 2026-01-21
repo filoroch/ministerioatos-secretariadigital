@@ -2,7 +2,7 @@ package br.org.ministerioatos.backend.domain;
 
 import br.org.ministerioatos.backend.domain.valueobjects.DadosEclesiasticos;
 import br.org.ministerioatos.backend.domain.valueobjects.Genero;
-import br.org.ministerioatos.backend.domain.valueobjects.StatusEclesiastico;
+import br.org.ministerioatos.backend.domain.valueobjects.SituacaoEclesiastica;
 
 import java.time.LocalDate;
 

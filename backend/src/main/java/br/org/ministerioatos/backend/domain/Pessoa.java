@@ -2,13 +2,12 @@ package br.org.ministerioatos.backend.domain;
 
 import br.org.ministerioatos.backend.domain.valueobjects.DadosEclesiasticos;
 import br.org.ministerioatos.backend.domain.valueobjects.Genero;
-import org.apache.el.stream.Optional;
+import br.org.ministerioatos.backend.domain.valueobjects.TipoRelacao;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Pessoa {
@@ -32,6 +31,10 @@ public class Pessoa {
 
         this.nome = nome;
         this.genero = genero;
+    }
+
+    public Pessoa() {
+
     }
 
 

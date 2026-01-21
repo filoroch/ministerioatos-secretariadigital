@@ -1,7 +1,5 @@
 package br.org.ministerioatos.backend.domain.valueobjects;
 
-import br.org.ministerioatos.backend.domain.SituacaoEclesiastica;
-
 import java.time.LocalDate;
 
 public class DadosEclesiasticos {

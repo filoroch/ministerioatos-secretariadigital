@@ -1,4 +1,4 @@
-package br.org.ministerioatos.backend.domain;
+package br.org.ministerioatos.backend.domain.valueobjects;
 
 public enum TipoRelacao {
     PAI,
